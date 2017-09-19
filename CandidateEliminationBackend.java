@@ -5,11 +5,41 @@ public class CandidateEliminationBackend
 {
 	static ArrayList<String[]> specificBoundary = new ArrayList<String[]>();
 	static ArrayList<String[]> genericBoundary = new ArrayList<String[]>();
+	static String[][] dataSet; 
+	static String[][] attributeRange = {{"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","2","4","5","6","8"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"0","1"},
+			                     {"1","2","3","4","5","6","7"}
+								};
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args)
+	{
+		CandidateEliminationBackend C = new CandidateEliminationBackend();
+		try
+		{				
+			dataSet = new PreprocessData("/media/manik/Windows/Users/user/Downloads/CandidateElimination/classList.txt","/media/manik/Windows/Users/user/Downloads/CandidateElimination/candidateDataSet.txt","/media/manik/Windows/Users/user/Downloads/CandidateElimination/newData.txt").createDataPointsList();
+		}
+		catch(IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
+		System.out.println(dataSet[0].toString());
 	}
 
+    
 
 
 
