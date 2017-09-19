@@ -5,9 +5,12 @@ public class CandidateEliminationBackend
 {
 	static ArrayList<String[]> specificBoundary = new ArrayList<String[]>();
 	static ArrayList<String[]> genericBoundary = new ArrayList<String[]>();
+	static String[][] dataSet; 
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args)
+	{
+		CandidateEliminationBackend C = new CandidateEliminationBackend();
+		dataSet = new PreprocessData("/media/manik/Windows/Users/user/Downloads/CandidateElimination/classList.txt","/media/manik/Windows/Users/user/Downloads/CandidateElimination/candidateDataSet.txt","/media/manik/Windows/Users/user/Downloads/CandidateElimination/newData.txt").createDataPointsList();
 	}
 
 
