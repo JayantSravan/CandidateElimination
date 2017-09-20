@@ -144,3 +144,56 @@ public class CandidateEliminationBackend
 		}
 	}
 }
+///Specialize General Boundary given the negative data string
+public void SpecializeGenericBoundary(ArrayList<String[]> genericBoundary, String[] data)
+{
+	for(String[] genericHypothesis : genericBoundary)
+	{
+		if(CheckIfConsistentHypothesis(genericHypothesis, data))
+			continue;
+
+		int dataIterateVar = 0; //Integer to iterate over data d
+		for(String attributeValue : genericHypothesis)
+		{
+
+			if(attributeValue.equals("?")) // ? has to be split otherwise go to next string
+			{
+				for(String attributeRanges : attributeRange[dataIterateVar])
+				{
+					if(!attributeRanges.equals(data[dataIterateVar]))
+					{
+						String[] newSpecHyp = genericHypothesis;
+						newSpecHyp[dataIterateVar] = attributeRanges;
+						//add this to the genericBoundary arrayList
+						genericBoundary.add(newSpecHyp);
+					}
+				}
+			}
+
+			dataIterateVar++;
+		}
+		//remove the old Specific Boundary
+		genericBoundary.remove(genericHypothesis);
+	}
+
+}
+
+private boolean CheckIfConsistentHypothesis(String[] Hypothesis , String[] data)
+{
+	int dataIterateVal = 0;
+	boolean cond = true;
+	for(String attributeVal : Hypothesis)
+	{
+		if(attributeVal.equals("?"))
+		{
+			continue;
+		}
+		else if(!attributeVal.equals(data[dataIterateVal]))
+		{
+			return false;
+		}
+		dataIterateVal++;
+	}
+	return cond;
+}
+//////
