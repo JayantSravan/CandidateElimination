@@ -31,7 +31,7 @@ public class CandidateEliminationBackend
 		CandidateEliminationBackend C = new CandidateEliminationBackend();
 		try
 		{				
-			dataSet = new PreprocessData("/media/manik/Windows/Users/user/Downloads/CandidateElimination/classList.txt","/media/manik/Windows/Users/user/Downloads/CandidateElimination/candidateDataSet.txt","/media/manik/Windows/Users/user/Downloads/CandidateElimination/newData.txt").createDataPointsList();
+			dataSet = new PreprocessData("/classList.txt","candidateDataSet.txt","newData.txt").createDataPointsList();
 		}
 		catch(IOException ioe)
 		{
