@@ -145,11 +145,12 @@ public class CandidateEliminationBackend
 	}
 }
 ///Specialize General Boundary given the negative data string
-public void SpecializeGenericBoundary(ArrayList<String[]> genericBoundary, String[] data)
+public void specializeGenericBoundary(ArrayList<String[]> genericBoundary, String[] data)
 {
+	ArrayList<String[]> bufferArray = new ArrayList<String[]>;
 	for(String[] genericHypothesis : genericBoundary)
 	{
-		if(CheckIfConsistentHypothesis(genericHypothesis, data))
+		if(checkIfConsistentHypothesis(genericHypothesis, data))
 			continue;
 
 		int dataIterateVar = 0; //Integer to iterate over data d
@@ -165,7 +166,7 @@ public void SpecializeGenericBoundary(ArrayList<String[]> genericBoundary, Strin
 						String[] newSpecHyp = genericHypothesis;
 						newSpecHyp[dataIterateVar] = attributeRanges;
 						//add this to the genericBoundary arrayList
-						genericBoundary.add(newSpecHyp);
+						bufferArray.add(newSpecHyp);
 					}
 				}
 			}
@@ -175,10 +176,10 @@ public void SpecializeGenericBoundary(ArrayList<String[]> genericBoundary, Strin
 		//remove the old Specific Boundary
 		genericBoundary.remove(genericHypothesis);
 	}
-
+	genericBoundary.addAll(bufferArray);
 }
 
-private boolean CheckIfConsistentHypothesis(String[] Hypothesis , String[] data)
+private boolean checkIfConsistentHypothesis(String[] Hypothesis , String[] data)
 {
 	int dataIterateVal = 0;
 	boolean cond = true;
@@ -197,3 +198,88 @@ private boolean CheckIfConsistentHypothesis(String[] Hypothesis , String[] data)
 	return cond;
 }
 //////
+
+/////////////Check if Generic boundary contains elements which are less specific than some other hypothesis in the generic boundary
+	///////// and relation between two hypothesis
+
+public int specificGenericRelaionship(String[] hyp1, String[] hyp2)//returns 1 if hyp1 is more generic, -1 if hyp2 is more generic, 0 if not related
+{
+	for(String att1 : hyp1)
+	{
+		if(att1.equal("~"))
+			return -1;
+	}
+
+	for(String att2 : hyp2)
+	{
+		if(att2.equal("~"))
+			return 1;
+	}
+	int iterator=0;
+	int ge = 0;
+	int sp = 0;
+
+	for(String att1 : hyp1)
+	{
+		if(att1.equals("?") && hyp2[iterator].equals("?"))
+		{
+			iterator++;
+			continue;
+		}
+		else if(att1.equals("?"))
+		{
+			ge++;
+		}
+		else if(hyp2[iterator].equals("?"))
+		{
+			sp++;
+		}
+		else if(att1.equals(hyp2[iterator]))
+		{
+			iterator++;
+			continue;
+		}
+		else
+		{
+			return 0;
+		}
+		iterator++;
+	}
+	if(sp>0 && ge>0)
+	{
+		return 0;
+	}
+	else if(sp>0)
+	{
+		return -1;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+public void removeGenRedundant(ArrayList<String[]> genericBoundary)
+{
+	for(String[] hypothesis : genericBoundary)
+	{
+		for(String[] hypothesis2 : genericBoundary)
+		{
+			if(!hypothesis.equals(hypothesis2))
+			{
+				int compare = specificGenericRelaionship(hypothesis, hypothesis2);
+
+				if(compare == 1)
+				{
+					genericBoundary.remove(hypothesis2);
+				}
+				else if(compare==-1)
+				{
+					genericBoundary.remove(hypothesis);
+				}
+			}
+		}
+	}
+}
+
+//////////
