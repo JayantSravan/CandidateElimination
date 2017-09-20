@@ -27,6 +27,7 @@ public class CandidateEliminationBackend
 
 	public static void main(String[] args)
 	{
+		//specificBoundary.add(new String[]{"~","~","~","~","~","~","~","~","~","~","~","~","~","~","~","~","~"});
 		CandidateEliminationBackend C = new CandidateEliminationBackend();
 		try
 		{				
@@ -38,9 +39,31 @@ public class CandidateEliminationBackend
 		}
 		System.out.println(dataSet[0].toString());
 	}
-
+/************************************************************************************************************/
     
-
+    
+    public static void modifiedSpecificBoundry(String[] specific)
+    {
+        if(specificBoundry.size()==0)
+        {
+            specificBoundry.add(specific);
+            
+        }
+        else
+        {
+            String []temp=specificBoundry.get(0);
+            for(int i=0;i<attributeRange.length-1;i++)
+            {
+                if(!(temp[i].equals(check[i])))
+                {
+                    temp[i]="?";
+                }
+            }
+            specificBoundry.remove(0);
+            specificBoundry.add(temp);
+        }
+    } 
+/************************************************************************************************************/
 
 
 
