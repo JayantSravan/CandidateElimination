@@ -5,7 +5,7 @@ public class CandidateEliminationBackend
 {
 	static ArrayList<String[]> specificBoundary = new ArrayList<String[]>();
 	static ArrayList<String[]> genericBoundary = new ArrayList<String[]>();
-	static String[][] dataSet; 
+	static String[][] dataSet;
 	static String[][] attributeRange = {{"0","1"},
 			                     {"0","1"},
 			                     {"0","1"},
@@ -30,7 +30,7 @@ public class CandidateEliminationBackend
 		//specificBoundary.add(new String[]{"~","~","~","~","~","~","~","~","~","~","~","~","~","~","~","~","~"});
 		CandidateEliminationBackend C = new CandidateEliminationBackend();
 		try
-		{				
+		{
 			dataSet = new PreprocessData("/classList.txt","candidateDataSet.txt","newData.txt").createDataPointsList();
 		}
 		catch(IOException ioe)
@@ -40,14 +40,14 @@ public class CandidateEliminationBackend
 		System.out.println(dataSet[0].toString());
 	}
 /************************************************************************************************************/
-    
-    
+
+
     public static void modifiedSpecificBoundry(String[] specific)
     {
         if(specificBoundry.size()==0)
         {
             specificBoundry.add(specific);
-            
+
         }
         else
         {
@@ -62,7 +62,7 @@ public class CandidateEliminationBackend
             specificBoundry.remove(0);
             specificBoundry.add(temp);
         }
-    } 
+    }
 /************************************************************************************************************/
 
 
@@ -261,6 +261,7 @@ public int specificGenericRelaionship(String[] hyp1, String[] hyp2)//returns 1 i
 
 public void removeGenRedundant(ArrayList<String[]> genericBoundary)
 {
+	ArrayList<String[]> bufferArrayList = new ArrayList<String[]>();
 	for(String[] hypothesis : genericBoundary)
 	{
 		for(String[] hypothesis2 : genericBoundary)
@@ -271,14 +272,21 @@ public void removeGenRedundant(ArrayList<String[]> genericBoundary)
 
 				if(compare == 1)
 				{
-					genericBoundary.remove(hypothesis2);
+					//genericBoundary.remove(hypothesis2);
+					bufferArrayList.add(hypothesis2);
 				}
 				else if(compare==-1)
 				{
-					genericBoundary.remove(hypothesis);
+					//genericBoundary.remove(hypothesis);
+					bufferArrayList.add(hypothesis);
 				}
 			}
 		}
+	}
+
+	for(String[] hypothesisToBeRemoved : bufferArrayList)
+	{
+		genericBoundary.remove(hypothesisToBeRemoved);
 	}
 }
 
